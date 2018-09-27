@@ -15,8 +15,10 @@ function readability(filename, callback) {
         if (err) throw err;
 
         // TODO: parse and analyze the file contents
-
-        callback({test: "Replace this object with more information!"});
+        const charactertokens = tokenize.characters()(contents);
+        const wordtokens = tokenize.words()(contents);
+        const sentencesTokens = tokenizeEnglish.sentences()(contents)
+        callback({test: "PUT IN HERE WHAT YOU ACTUALLY WANT TO PRINT TO CONSOLE"});
     });
 }
 
