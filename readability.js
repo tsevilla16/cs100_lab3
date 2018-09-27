@@ -15,10 +15,14 @@ function readability(filename, callback) {
         if (err) throw err;
 
         // TODO: parse and analyze the file contents
-        const charactertokens = tokenize.characters()(contents);
+        const lettertokens = tokenize.characters()(contents);
         const wordtokens = tokenize.words()(contents);
         const sentencesTokens = tokenizeEnglish.sentences()(contents)
-        callback({test: "PUT IN HERE WHAT YOU ACTUALLY WANT TO PRINT TO CONSOLE"});
+
+        const colemanLiauText = colemanLiau(lettertokens.length, wordtokens.length, sentencesTokens.length)
+        const automatedReadabilityIndex = automatedReadabilityIndex(lettertokens.length, NUMBERSHERE ,wordtokens.length, sentencesTokens.length)
+
+        callback({test: colemanLiauText});
     });
 }
 
