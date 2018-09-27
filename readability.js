@@ -30,6 +30,7 @@ function automatedReadabilityIndex(letters, numbers, words, sentences) {
         - 21.43;
 }
 
+// Calls the readability function on the provided file and defines callback behavior
 readability(process.argv[2], data => {
     console.log(data);
 });
