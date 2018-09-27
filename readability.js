@@ -37,5 +37,5 @@ if (process.argv.length >= 3) {
     });
 }
 else {
-    console.log("Usage: node readability.json <file>");
+    console.log("Usage: node readability.js <file>");
 }
