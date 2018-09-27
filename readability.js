@@ -5,6 +5,10 @@ const Tokenizer = require('tokenize-text');
 const tokenize = new Tokenizer();
 const tokenizeEnglish = require("tokenize-english")(tokenize);
 
+//characters var tokens = tokenize.characters()('abc');
+//words var tokens = tokenize.words()('hello, how are you?');
+//setences var tokens = tokenizeEnglish.sentences("On Jan. 20, former Sen. Barack Obama became the 44th President of the U.S. Millions attended the Inauguration.")
+
 // Parses a text file into words, sentences, characters
 function readability(filename, callback) {
     fs.readFile(filename, "utf8", (err, contents) => {
