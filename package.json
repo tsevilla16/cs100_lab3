@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "express": "^4.16.3",
     "md5-file": "^4.0.0",
     "sqlite3": "^4.0.2",
     "tokenize-english": "^1.0.3",
