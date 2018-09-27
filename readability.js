@@ -5,11 +5,12 @@ const Tokenizer = require('tokenize-text');
 const tokenize = new Tokenizer();
 const tokenizeEnglish = require("tokenize-english")(tokenize);
 
+// Parses a text file into words, sentences, characters
 function readability(filename, callback) {
     fs.readFile(filename, "utf8", (err, contents) => {
         if (err) throw err;
 
-        // todo: parse and analyze the file
+        // TODO: parse and analyze the file contents
 
         callback({test: "Replace this object with more information!"});
     });
