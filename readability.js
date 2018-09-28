@@ -13,18 +13,28 @@ const tokenizeEnglish = require("tokenize-english")(tokenize);
 function readability(filename, callback) {
     fs.readFile(filename, "utf8", (err, contents) => {
         if (err) throw err;
-
         // TODO: parse and analyze the file contents
-        const lettertokens = tokenize.characters()(contents);
+        let extractLetters = tokenize.re(/[A-Za-z]/);
+        const lettertokens = extractLetters(contents);
+        let extractNumbers = tokenize.re(/[0-9]/);
+        const numberTokens = extractNumbers(contents);
         const wordtokens = tokenize.words()(contents);
-        const sentencesTokens = tokenizeEnglish.sentences()(contents)
+        const nonewlines = contents.split(/\n/).join(' ');
+        const sentencesTokens = tokenizeEnglish.sentences()(nonewlines)
+
+        console.log(lettertokens.length + numberTokens.length)
+        // console.log(numberTokens)
+        // console.log(wordtokens)
+        // console.log(sentencesTokens)
 
         const colemanLiauText = colemanLiau(lettertokens.length, wordtokens.length, sentencesTokens.length)
-        const automatedReadabilityIndex = automatedReadabilityIndex(lettertokens.length, NUMBERSHERE ,wordtokens.length, sentencesTokens.length)
+        const automatedReadabilityIndexText = automatedReadabilityIndex(lettertokens.length, numberTokens.length, wordtokens.length, sentencesTokens.length)
 
-        callback({test: colemanLiauText});
+        callback({test: automatedReadabilityIndexText});
     });
 }
+
+
 
 // Computes Coleman-Liau readability index
 function colemanLiau(letters, words, sentences) {
