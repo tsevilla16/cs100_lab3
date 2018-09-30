@@ -5,7 +5,7 @@ const Tokenizer = require('tokenize-text');
 const tokenize = new Tokenizer();
 const tokenizeEnglish = require("tokenize-english")(tokenize);
 
-//copied code from https://www.w3schools.com/nodejs/nodejs_mysql_insert.asp
+//copied and modified code from http://www.sqlitetutorial.net/sqlite-nodejs/connect/
 //creates a referece to the sqllite database
 let db = new sqlite3.Database('./textsinfo.db', sqlite3.OPEN_READWRITE, (err) => {
     if (err) {
@@ -31,8 +31,20 @@ function readability(filename, callback) {
         const colemanLiauText = colemanLiau(lettertokens.length, wordtokens.length, sentencesTokens.length)
         const automatedReadabilityIndexText = automatedReadabilityIndex(lettertokens.length, numberTokens.length, wordtokens.length, sentencesTokens.length)
 
+        //check if something in database
+        const currentFileInfo = queryTableForRow(filename).then(() =>{
+            console.log(currentFileInfo);
+        });  
+
+        if (currentFileInfo == undefined){
+            console.log("HI THIS WORKS")
+        }
+        //if no insert into database
         //insert row into database
         insertDBRow (numberTokens.length, lettertokens.length, wordtokens.length, sentencesTokens.length, filename)
+
+        //if yes
+        //iterate through array from callback and print dat stuff
 
         callback({test: automatedReadabilityIndexText});
     });
@@ -62,7 +74,19 @@ else {
     console.log("Usage: node readability.js <file>");
 }
 
+//check if row exists in database table
+//referenced https://stackoverflow.com/questions/9755860/valid-query-to-check-if-row-exists-in-sqlite3
+function queryTableForRow (filename){
+    db.get('SELECT * FROM textsinfo WHERE filename=?', [filename], (err, row) => {
+        if (err) {
+            throw err;
+        }
+        console.log(row);
+    });
+}
+
 //Insert rows into database
+//copied and modified code from http://www.sqlitetutorial.net/sqlite-nodejs/insert/
 // insert one row into the textsinfo table
 function insertDBRow (numberscount, letterscount, wordscount, sentencescount, filename){
     db.run(`INSERT INTO textsinfo(numbercount, lettercount, wordcount, sentencescount, filename) VALUES(?,?,?,?,?)`, [numberscount, letterscount, wordscount, sentencescount, filename], function(err) {
